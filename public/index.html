@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="static/css/styles.css">
     <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h"
+        crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.2/pixi.min.js"></script>
     <script src="static/js/utils.js"></script>
@@ -34,14 +35,28 @@
             </div>
         </div>
         <!-- TODO: add temperature and grid size sliders + basic instruction, about model XY -->
-        <div id="slider">
-                <div id="custom-handle" class="ui-slider-handle"></div>
-        </div>       
+        <div id="slidercontainer">
+            <span>Temperature</span>
+            <input type="range" min="1" max="2" value="1" class="slider" id="temperature">
+            <br>
+            <span>Grid size</span>
+            <input type="range" min="64" max="256" value="128" class="slider" id="grid">
+        </div>
+
+        <div id="info">
+            <p>How to control simulation</p>
+        </div>
     </div>
 
-
+    <footer class="footer">
+        <div class="container">
+            © 2018 Copyright: Robert Jankowski
+            <a href="https://github.com/robertjankowski/XYmodel" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
 
     <script src="static/js/model.js"></script>
+    <script src="static/js/spin.js"></script>
 </body>
 
 </html>
