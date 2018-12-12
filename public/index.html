@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Simulation of XY model</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.2/pixi.min.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script src="packages/jqueryui/jquery-ui.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Simulation of XY model</h1>
+            <p>Implementation using <code>pixi.js</code> library</p>
+        </div>
+        <canvas id="model"></canvas>
+        <div class="row">
+            <div class="col-sm-4 text-center">
+                <button type="button" class="btn btn-primary active">SETUP</button>
+            </div>
+            <div class="col-sm-4 text-center">
+                <button type="button" class="btn btn-primary active">GO</button>
+            </div>
+        </div>
+        <!-- TODO: add temperature and grid size sliders + basic instruction, about model XY -->
+        <div id="slider">
+                <div id="custom-handle" class="ui-slider-handle"></div>
+        </div>       
+    </div>
+
+
+
+    <script src="static/js/model.js"></script>
+</body>
+
+</html>

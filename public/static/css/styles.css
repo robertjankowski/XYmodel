@@ -1,0 +1,11 @@
+.container {
+    margin: 0 auto;
+    width: 60%;
+}
+
+#model {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 20px;
+}
