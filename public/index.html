@@ -6,17 +6,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Ion.RangeSlider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+   
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="static/css/styles.css">
-    <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Github pic -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h"
         crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    
+    <!-- pixi.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.2/pixi.min.js"></script>
-    <script src="static/js/utils.js"></script>
+    
+    <!-- jQuery-ui -->
+    <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
     <script src="packages/jqueryui/jquery-ui.js"></script>
+
+    <!-- my stylesheet -->
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 
 <body>
@@ -36,14 +48,11 @@
         </div>
         <!-- TODO: add temperature and grid size sliders + basic instruction, about model XY -->
         <div id="slidercontainer">
-            <span>Temperature</span>
-            <input type="range" min="1" max="5" value="2" class="slider" id="temperature">
+            <p>Temperature</p>
+            <input type="text" class="temperature" name="temp-slider" value="">
             <br>
-            <span>Grid size</span>
-            <input type="range" min="64" max="256" value="128" class="slider" id="grid">
-            <br>
-            <!-- TEST ionRangeSlider package - not working see utils.js -->
-            <input type="text" id="example_id" name="example_name" value=""/>
+            <p>Grid size</p>
+            <input type="text" class="grid" name="grid-slider" value="">
         </div>
 
         <div id="info">
@@ -58,6 +67,7 @@
         </div>
     </footer>
 
+    <script src="static/js/utils.js"></script>
     <script src="static/js/model.js"></script>
     <script src="static/js/spin.js"></script>
 </body>
