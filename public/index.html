@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-   
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -19,10 +19,10 @@
     <!-- Github pic -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h"
         crossorigin="anonymous">
-    
+
     <!-- pixi.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.2/pixi.min.js"></script>
-    
+
     <!-- jQuery-ui -->
     <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
     <script src="packages/jqueryui/jquery-ui.js"></script>
@@ -40,24 +40,32 @@
         <canvas id="model"></canvas>
         <div class="row">
             <div class="col-sm-4 text-center">
-                <button type="button" class="btn btn-primary active">SETUP</button>
+                <button id="setup" type="button" class="btn btn-primary active">SETUP</button>
             </div>
             <div class="col-sm-4 text-center">
-                <button type="button" class="btn btn-primary active">GO</button>
+                <button id="go" type="button" class="btn btn-primary active">GO</button>
             </div>
         </div>
-        <!-- TODO: add temperature and grid size sliders + basic instruction, about model XY -->
+        <div class="form-group">
+            <p>Grid size</p>
+            <select class="form-control" id="size_cell" onchange="document.getElementById('size_cell').value = this.value">
+                <option value="6"> 100 x 100</option>
+                <option value="10"> 60 x 60</option>
+                <option value="20" selected>30 x 30</option>
+                <option value="60">10 x 10</option>
+            </select>
+            <input type="hidden" id="size_cell" value="SIZE_CELL">
+        </div>
+        <br>
         <div id="slidercontainer">
             <p>Temperature</p>
-            <input type="text" class="temperature" name="temp-slider" value="">
-            <br>
-            <p>Grid size</p>
-            <input type="text" class="grid" name="grid-slider" value="">
+            <input type="text" id="temp_id" class="temperature" name="temp-slider" value="">
         </div>
-
+        <br>
         <div id="info">
             <p>How to control simulation</p>
         </div>
+        <br>
     </div>
 
     <footer class="footer">
