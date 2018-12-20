@@ -13,13 +13,16 @@ var LINE_EDGE = 2;
 
 //
 var total_cells;
-var go_button_counter = 1;
+var cell_state;
+var go_button_counter = 0;
+var timeout;
 
 // pixi.js variables
 var view;
 var rendered;
 var stage;
 var graphics;
+var ticker;
 
 function init_grid() {
     SIZE_CELL = parseInt(document.getElementById("size_cell").value);
@@ -43,7 +46,6 @@ function make_grid() {
         graphics.lineTo(GRID_SIZE, SIZE_CELL + j * SIZE_CELL + 0.5);
         graphics.closePath();
     }
-    console.log("END");
 }
 
 function create_canvas() {
@@ -52,6 +54,7 @@ function create_canvas() {
         view: view
     });
     stage = new PIXI.Container();
+    ticker = new PIXI.ticker.Ticker()
     // draw grid
     init_grid();
     graphics = new PIXI.Graphics();
@@ -65,34 +68,115 @@ function create_canvas() {
 
 function setup() {
     create_canvas();
+    init_cells_state();
+    random_init_cells();
+    draw_cells();
+    rendered.render(stage);
+    ticker.add((deltaTime) => {
+        update(); // TODO: not rendering updated cell_state! 
+        rendered.render(stage);
+    });
     console.log("SETUP");
 }
 
 function go() {
     if (go_button_counter % 2 === 0) {
         // forever loop simulation
-        document.getElementById("setup").disabled = false;
-        // TODO: create update function only with colors !!!
-    }
-    else {
-        // stop simulation
         document.getElementById("setup").disabled = true;
+        ticker.start();
+
+    } else {
+        // stop simulation
+        document.getElementById("setup").disabled = false;
+        ticker.stop();
     }
     go_button_counter++;
 }
 
-window.onload = function () {
+
+function update() {
+    var T = parseFloat(document.getElementById("temp_id").value);
+    var J = parseFloat(document.getElementById("interaction_id").value);
+
+    const fps = 50;
+
+    for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
+        for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
+
+            // TODO: implement Metropolis algorithm
+            var delta_E = 0;
+
+            var exp_boltzmann = 0;
+            if (T != 0) {
+                exp_boltzmann = Math.exp(-delta_E / T);
+            }
+
+        }
+    }
+    // for tests
+    random_init_cells();
+}
+
+function draw_cells() {
+    // for arrows
+    var A1 = new Array(2);
+    var B1 = new Array(2);
+    var A2 = new Array(2);
+    var B2 = new Array(2);
+    for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
+        for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
+            var xx = i * SIZE_CELL;
+            var yy = j * SIZE_CELL;
+
+            // map angle to color
+            var red = Math.floor(
+                255 * (Math.cos(cell_state[i][j]) + 1) / 2
+            );
+            var green = Math.floor(
+                255 * (Math.sin(cell_state[i][j]) + 1) / 2
+            );
+            var blue = Math.floor(
+                255 * (-Math.cos(cell_state[i][j]) + 1) / 2
+            );
+            var alpha = 0.75;
+            var color = "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
+            var hex = rgb2hex(color);
+            var hexInt = '0x' + hex.replace(/^#/, '');
+                
+            graphics.beginFill(hexInt);
+            graphics.drawRect(xx, yy, SIZE_CELL, SIZE_CELL);
+            graphics.endFill();
+            
+        }
+    }
+}
+
+function init_cells_state() {
+    cell_state = new Array();
+    for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
+        cell_state[i] = new Array();
+        for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
+            cell_state[i][j] = 0;
+        }
+    }
+}
+
+function random_init_cells() {
+    for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
+        for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
+            // range (-pi, pi)
+            cell_state[i][j] = Math.PI * (2 * Math.random() - 1); 
+        }
+    }
+}
+
+window.onload = function xy_model() {
 
     create_canvas();
+    init_cells_state();
 
     // attach buttons listeners
     document.getElementById("setup").addEventListener("click", setup);
     document.getElementById("go").addEventListener("click", go);
 
 }
-
-
-/*
-var temperature = document.getElementById("temp_id").value;
-console.log(temperature);
-*/
