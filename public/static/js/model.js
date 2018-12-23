@@ -6,15 +6,18 @@ var LINE_GRID_WIDTH = 1;
 var LINE_EDGE = 4;
 var WHITE = 'rgb(255, 255, 255)';
 var BLACK = 'rgb(0, 0, 0)';
+var ARROW_COLOR = "rgba(17, 24, 35)";
 
 // cell variables
 var total_cells;
 var cellStates;
 var buttonCounter = 0;
 var TimeoutID;
+var J; // interaction 
+var T; // temperature
 
 // graphics
-var context;
+var ctx;
 
 window.onload = function xy_model() {
 
@@ -42,6 +45,7 @@ function go() {
     } else {
         // stop simulation
         document.getElementById('setup').disabled = false;
+        clearTimeout(TimeoutID);
     }
     buttonCounter++;
 }
@@ -56,35 +60,35 @@ function initGrid() {
 function makeCanvas() {
     canvas = document.getElementById("model");
     canvas.width = GRID_SIZE;
-    context = canvas.getContext('2d');
+    canvas.height = GRID_SIZE;
+    ctx = canvas.getContext('2d');
 
     initGrid();
-    context.beginPath();
-    context.fillStyle = WHITE;
-    context.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
+    ctx.beginPath();
+    ctx.fillStyle = WHITE;
+    ctx.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
     makeGrid();
 }
 
 function makeGrid() {
-    context.lineWidth = LINE_GRID_WIDTH;
-    context.strokeRect(0, 0, GRID_SIZE, GRID_SIZE);
+    ctx.lineWidth = LINE_GRID_WIDTH;
+    ctx.strokeRect(0, 0, GRID_SIZE, GRID_SIZE);
     for (var i = 0; i < CELL_HEIGHT_WIDTH - 1; i++) {
-        context.beginPath();
-        context.lineWidth = LINE_GRID_WIDTH;
-        context.strokeStyle = BLACK;
-        context.moveTo(SIZE_CELL + i * SIZE_CELL, 0);
-        context.lineTo(SIZE_CELL + i * SIZE_CELL, GRID_SIZE);
-        context.stroke();
+        ctx.beginPath();
+        ctx.lineWidth = LINE_GRID_WIDTH;
+        ctx.strokeStyle = BLACK;
+        ctx.moveTo(SIZE_CELL + i * SIZE_CELL, 0);
+        ctx.lineTo(SIZE_CELL + i * SIZE_CELL, GRID_SIZE);
+        ctx.stroke();
     }
     for (var j = 0; j < CELL_HEIGHT_WIDTH - 1; j++) {
-        context.beginPath();
-        context.lineWidth = LINE_GRID_WIDTH;
-        context.strokeStyle = BLACK;
-        context.moveTo(0, SIZE_CELL + j * SIZE_CELL);
-        context.lineTo(GRID_SIZE, SIZE_CELL + j * SIZE_CELL);
-        context.stroke();
+        ctx.beginPath();
+        ctx.lineWidth = LINE_GRID_WIDTH;
+        ctx.strokeStyle = BLACK;
+        ctx.moveTo(0, SIZE_CELL + j * SIZE_CELL);
+        ctx.lineTo(GRID_SIZE, SIZE_CELL + j * SIZE_CELL);
+        ctx.stroke();
     }
-    console.log("MAKE_GRID");
 }
 
 
@@ -109,21 +113,66 @@ function initRandomCells(cell_state) {
 }
 
 function drawCells(cell_state) {
+    var A1 = new Array(2);
+    var B1 = new Array(2);
+    var A2 = new Array(2);
+    var B2 = new Array(2);
     for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
         for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
             var x = i * SIZE_CELL;
             var y = j * SIZE_CELL;
 
-            context.beginPath();
+            ctx.beginPath();
             // map cell value to color
             var red = Math.floor(255 * (Math.cos(cellStates[i][j]) + 1) / 2);
             var green = Math.floor(255 * (Math.sin(cellStates[i][j]) + 1) / 2);
             var blue = Math.floor(255 * (-Math.cos(cellStates[i][j]) + 1) / 2);
             var rgba = "rgba(" + red + "," + green + "," + blue + ",0.75)";
-            context.fillStyle = rgba;
-            context.fillRect(x, y, SIZE_CELL, SIZE_CELL);
+            ctx.fillStyle = rgba;
+            ctx.fillRect(x, y, SIZE_CELL, SIZE_CELL);
+
+            ctx.beginPath();
+            ctx.strokeStyle = ARROW_COLOR; 
+            ctx.fillStyle = ARROW_COLOR;
+            ctx.lineWidth = 2;
+            A1[0] = x + SIZE_CELL / 2 - SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
+            A1[1] = y + SIZE_CELL / 2 - SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
+            B1[0] = x + SIZE_CELL / 2 + SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
+            B1[1] = y + SIZE_CELL / 2 + SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
+            drawArrow(A1, B1, SIZE_CELL * 0.40, SIZE_CELL * 0.40);
+
         }
     }
+}
+
+function drawArrow(A, B, w, h) {
+    var L = new Array(2);
+    var R = new Array(2);
+    arrowPos(A, B, w, h, L, R);
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(A[0], A[1]);
+    ctx.lineTo(B[0], B[1]);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(L[0], L[1]);
+    ctx.lineTo(B[0], B[1]);
+    ctx.lineTo(R[0], R[1]);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
+function arrowPos(A, B, w, h, L, R) {
+    var Vx = B[0] - A[0];
+    var Vy = B[1] - A[1];
+    var v = Math.sqrt(Vx * Vx + Vy * Vy);
+    var Ux = Vx / v;
+    var Uy = Vy / v;
+    L[0] = B[0] - Uy * w - Ux * h;
+    L[1] = B[1] + Ux * w - Uy * h;
+    R[0] = B[0] + Uy * w - Ux * h;
+    R[1] = B[1] - Ux * w - Uy * h;
 }
 
 var miiin;
@@ -133,23 +182,21 @@ var mjjin;
 var pjjin;
 
 function updateGrid() {
-    var T = parseFloat(document.getElementById("temp_id").value);
-    var J = parseFloat(document.getElementById("interaction_id").value);
+    T = parseFloat(document.getElementById("temp_id").value);
+    J = parseFloat(document.getElementById("interaction_id").value);
 
-    // TODO: add arrows and think about algorithms
-    
     for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
         for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
 
             var ii = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
             var jj = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
 
-            var iiin = i;
-            miiin = i - 1;
-            piiin = i + 1;
-            jjin = j;
-            mjjin = j - 1;
-            pjjin = j + 1;
+            var iiin = ii;
+            miiin = ii - 1;
+            piiin = ii + 1;
+            jjin = jj;
+            mjjin = jj - 1;
+            pjjin = jj + 1;
 
             boundaryConditions();
 
@@ -175,7 +222,7 @@ function updateGrid() {
                     Math.cos(cellStates[ii][jj] - cellStates[ii][pjj]))
 
             var expBoltzmann = 0;
-            if (T != 0) {
+            if (T !== 0) {
                 expBoltzmann = Math.exp(-deltaE / T);
             }
             if (deltaE > 0) {
@@ -187,10 +234,34 @@ function updateGrid() {
             }
         }
     }
+    makeGrid();
     drawCells(cellStates);
 
+    // calculate M
+    var CELL_TOT = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH
+    var Mxtot = 0;
+    var Mytot = 0;
+    var Etot = 0;
+    for (var ii = 0; ii < CELL_HEIGHT_WIDTH; ii++) {
+        for (var jj = 0; jj < CELL_HEIGHT_WIDTH; jj++) {
+            mii = ii - 1
+            mjj = jj - 1
+            if (mii < 0) mii = CELL_HEIGHT_WIDTH - 1;
+            if (mjj < 0) mjj = CELL_HEIGHT_WIDTH - 1;
+            Mxtot = Mxtot + Math.cos(-cellStates[ii][jj]) * Math.pow(CELL_TOT, -1);
+            Mytot = Mytot + Math.sin(-cellStates[ii][jj]) * Math.pow(CELL_TOT, -1);
+            Etot = Etot -
+                J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
+                    Math.cos(cellStates[ii][jj] - cellStates[ii][mjj])) *
+                Math.pow(CELL_TOT, -1);
+        }
+    }
+
+    // TODO: get data for plots to txt -> test different algorithm
+    // console.log(Mxtot);
+
     var fps = 100;
-    TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates); //1000ms
+    TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
 }
 
 function boundaryConditions() {

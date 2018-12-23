@@ -38,48 +38,50 @@
     <div class="container">
         <div class="jumbotron">
             <h1>Simulation of XY model</h1>
-            <p>Implementation using <code>pixi.js</code> library</p>
         </div>
-        <canvas id="model" width="600" height="600"></canvas>
-        <div class="row">
-            <div class="col-sm-4 text-center">
-                <button id="setup" type="button" class="btn btn-primary active">SETUP</button>
-            </div>
-            <div class="col-sm-4 text-center">
-                <button id="go" type="button" class="btn btn-primary active">GO</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <p>Grid size</p>
-            <select class="form-control" id="size_cell" onchange="document.getElementById('size_cell').value = this.value">
-                <option value="6"> 100 x 100</option>
-                <option value="10"> 60 x 60</option>
-                <option value="20" selected>30 x 30</option>
-                <option value="60">10 x 10</option>
-            </select>
-            <input type="hidden" id="size_cell" value="SIZE_CELL">
-        </div>
-        <br>
-        <div id="slidercontainer">
-            <p>Temperature</p>
-            <input type="text" id="temp_id" class="temperature" name="temp-slider" value="">
-            <p></p>
-            <p>Interaction \(J\)</p>
-            <input type="text" id="interaction_id" class="interaction" name="interaction-slider" value="">
-        </div>
-        <br>
-        <div id="info">
-            <p>How to control simulation</p>
-        </div>
-        <br>
     </div>
-
-    <footer class="footer">
-        <div class="container">
+    <div class="main">
+        <div class="left">
+            <canvas id="model" width="600" height="600"></canvas>
+        </div>
+        <div class="right">
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                    <button id="setup" type="button" class="btn btn-primary active">SETUP</button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <button id="go" type="button" class="btn btn-primary active">GO</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <p>Grid size</p>
+                <select class="form-control" id="size_cell" onchange="document.getElementById('size_cell').value = this.value">
+                    <option value="6"> 100 x 100</option>
+                    <option value="10"> 60 x 60</option>
+                    <option value="20" selected>30 x 30</option>
+                    <option value="60">10 x 10</option>
+                </select>
+                <input type="hidden" id="size_cell" value="SIZE_CELL">
+            </div>
+            <br>
+            <div id="slidercontainer">
+                <p>Temperature</p>
+                <input type="text" id="temp_id" class="temperature" name="temp-slider" value="">
+                <p></p>
+                <p>Interaction \(J\)</p>
+                <input type="text" id="interaction_id" class="interaction" name="interaction-slider" value="">
+            </div>
+            <br>
+            <div id="info">
+                <p>How to control simulation</p>
+            </div>
+            <br>
+        </div>
+        <div class="footer">
             © 2018 Copyright: Robert Jankowski
             <a href="https://github.com/robertjankowski/XYmodel" target="_blank"><i class="fab fa-github"></i></a>
         </div>
-    </footer>
+    </div>
 
     <script src="static/js/utils.js"></script>
     <script src="static/js/model.js"></script>
