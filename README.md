@@ -1,5 +1,9 @@
 # Simulation of XY model
 
+***
+Running on **Heroku** - https://xy-model.herokuapp.com/
+
+***
 XY model is lattice model of statistical mechanics. 
 
 **The spin configuration**
