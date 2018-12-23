@@ -1,12 +1,12 @@
 var express = require("express");
 
 var app = express();
-const PORT = 8001
+const PORT = process.env.PORT || 5000
 
 app.use(express.static(__dirname + "/public"));
 
 app.get('/', (req, res) => {
-    res.sendFile("index.html");
+    res.render("index");
 });
 
 app.listen(PORT, () => {
