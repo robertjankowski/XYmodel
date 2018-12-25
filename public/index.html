@@ -23,15 +23,15 @@
     <!-- pixi.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.2/pixi.min.js"></script>
 
-    <!-- jQuery-ui -->
-    <link rel="stylesheet" href="packages/jqueryui/jquery-ui.css">
-    <script src="packages/jqueryui/jquery-ui.js"></script>
-
     <!-- my stylesheet -->
     <link rel="stylesheet" href="static/css/styles.css">
 
     <!-- MathJax - Latex in HTML -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+    <!-- bootstrap switch  http://www.bootstraptoggle.com/ -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 
 <body>
@@ -72,8 +72,25 @@
                 <input type="text" id="interaction_id" class="interaction" name="interaction-slider" value="">
             </div>
             <br>
+            <table style="width:100%">
+                <tr>
+                    <th>Color</th>
+                    <th>Grid</th>
+                </tr>
+                <tr>
+                    <th><input id="color" class="color" checked type="checkbox"></th>
+                    <th><input id="grid" class="color" checked type="checkbox"></th>
+                </tr>
+            </table>
+            <br>
             <div id="info">
                 <p>How to control simulation</p>
+                <ol>
+                    <li>Set grid size, off/on color and grid</li>
+                    <li>Press <b>SETUP</b> button</li>
+                    <li>Press <b>GO</b> button to start simulation</li>
+                    <li>Press once again to stop simulation</li>
+                </ol>
             </div>
             <br>
         </div>

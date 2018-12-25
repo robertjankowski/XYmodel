@@ -15,6 +15,8 @@ var buttonCounter = 0;
 var TimeoutID;
 var J; // interaction 
 var T; // temperature
+var color = true; // color on/off
+var grid = true; // grid on/off
 
 // graphics
 var ctx;
@@ -122,17 +124,19 @@ function drawCells(cell_state) {
             var x = i * SIZE_CELL;
             var y = j * SIZE_CELL;
 
-            ctx.beginPath();
-            // map cell value to color
-            var red = Math.floor(255 * (Math.cos(cellStates[i][j]) + 1) / 2);
-            var green = Math.floor(255 * (Math.sin(cellStates[i][j]) + 1) / 2);
-            var blue = Math.floor(255 * (-Math.cos(cellStates[i][j]) + 1) / 2);
-            var rgba = "rgba(" + red + "," + green + "," + blue + ",0.75)";
-            ctx.fillStyle = rgba;
-            ctx.fillRect(x, y, SIZE_CELL, SIZE_CELL);
+            if (color) {
+                ctx.beginPath();
+                // map cell value to color
+                var red = Math.floor(255 * (Math.cos(cellStates[i][j]) + 1) / 2);
+                var green = Math.floor(255 * (Math.sin(cellStates[i][j]) + 1) / 2);
+                var blue = Math.floor(255 * (-Math.cos(cellStates[i][j]) + 1) / 2);
+                var rgba = "rgba(" + red + "," + green + "," + blue + ",0.75)";
+                ctx.fillStyle = rgba;
+                ctx.fillRect(x, y, SIZE_CELL, SIZE_CELL);
+            }
 
             ctx.beginPath();
-            ctx.strokeStyle = ARROW_COLOR; 
+            ctx.strokeStyle = ARROW_COLOR;
             ctx.fillStyle = ARROW_COLOR;
             ctx.lineWidth = 2;
             A1[0] = x + SIZE_CELL / 2 - SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
@@ -143,6 +147,7 @@ function drawCells(cell_state) {
 
         }
     }
+
 }
 
 function drawArrow(A, B, w, h) {
@@ -182,6 +187,7 @@ var mjjin;
 var pjjin;
 
 function updateGrid() {
+    makeCanvas();
     T = parseFloat(document.getElementById("temp_id").value);
     J = parseFloat(document.getElementById("interaction_id").value);
 
@@ -234,8 +240,10 @@ function updateGrid() {
             }
         }
     }
-    makeGrid();
     drawCells(cellStates);
+    if (grid) {
+        makeGrid();
+    }
 
     // calculate M
     var CELL_TOT = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH

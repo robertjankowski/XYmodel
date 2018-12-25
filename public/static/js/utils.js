@@ -1,3 +1,4 @@
+// sliders
 // temperature slider setup
 var $temperature_slider = $(".temperature");
 $temperature_slider.ionRangeSlider({
@@ -17,3 +18,18 @@ $interaction_slider.ionRangeSlider({
     from: 1,
     skin: 'round'
 })
+
+// switches
+// color on/off
+var $color = $(".color");
+$color.bootstrapToggle();
+$color.change(function() {
+    color = $(".color").prop('checked');
+});
+
+// grid on/off
+var $grid = $(".grid");
+$grid.bootstrapToggle();
+$grid.change(function() {
+    grid = $(".grid").prop('checked');
+});
