@@ -19,6 +19,19 @@ $interaction_slider.ionRangeSlider({
     skin: 'round'
 })
 
+// fps slider setup
+var $fps_slider = $(".fps");
+$fps_slider.ionRangeSlider({
+    min: 1,
+    max: 100,
+    step: 1,
+    from: 60,
+    skin: 'round',
+    onChange: function (data) {
+        fps = data.from;
+    }
+});
+
 // switches
 // color on/off
 var $color = $(".color");
@@ -32,4 +45,11 @@ var $grid = $(".grid");
 $grid.bootstrapToggle();
 $grid.change(function() {
     grid = $(".grid").prop('checked');
+});
+
+// arrows on/off
+var $arrows = $(".arrows");
+$arrows.bootstrapToggle();
+$arrows.change(function() {
+    arrows = $(".arrows").prop("checked");
 });

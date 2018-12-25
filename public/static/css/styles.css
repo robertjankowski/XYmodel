@@ -1,8 +1,13 @@
 html,
 body {
-    margin: 0;
-    padding: 0;
     height: 100%;
+}
+
+.jumbotron {
+    position: relative;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
 }
 
 #model {
@@ -14,17 +19,15 @@ body {
 
 
 .footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 60px;
+    height: 40px;
     background-color: #f5f5f5;
     text-align: center;
-    line-height: 60px;
+    line-height: 40px;
 }
 
 .row {
-    padding: 40px;
+    padding: 20px;
 }
 
 .main {
@@ -32,6 +35,7 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+    flex: 1 0 auto;
 }
 
 .left {
@@ -44,8 +48,34 @@ body {
     position: absolute;
     right: 40px;
     width: 40%;
+    padding: 25px 20px 0px 0px;
+}
+
+.right table {
+    width: 100%;
+}
+
+.right th,
+td {
+    text-align: center;
 }
 
 p {
     font-weight: bold;
+}
+
+
+#appearance table {
+    width: 100%;
+}
+
+#appearance td,
+th {
+    text-align: center;
+}
+
+.body {
+    min-height: 1000px;
+    margin: auto;
+    padding: 40px;
 }

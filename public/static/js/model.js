@@ -15,8 +15,11 @@ var buttonCounter = 0;
 var TimeoutID;
 var J; // interaction 
 var T; // temperature
+
 var color = true; // color on/off
 var grid = true; // grid on/off
+var arrows = true; // arrows on/off
+var fps = 100; // frames per second 
 
 // graphics
 var ctx;
@@ -134,17 +137,17 @@ function drawCells(cell_state) {
                 ctx.fillStyle = rgba;
                 ctx.fillRect(x, y, SIZE_CELL, SIZE_CELL);
             }
-
-            ctx.beginPath();
-            ctx.strokeStyle = ARROW_COLOR;
-            ctx.fillStyle = ARROW_COLOR;
-            ctx.lineWidth = 2;
-            A1[0] = x + SIZE_CELL / 2 - SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
-            A1[1] = y + SIZE_CELL / 2 - SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
-            B1[0] = x + SIZE_CELL / 2 + SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
-            B1[1] = y + SIZE_CELL / 2 + SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
-            drawArrow(A1, B1, SIZE_CELL * 0.40, SIZE_CELL * 0.40);
-
+            if (arrows) {
+                ctx.beginPath();
+                ctx.strokeStyle = ARROW_COLOR;
+                ctx.fillStyle = ARROW_COLOR;
+                ctx.lineWidth = 2;
+                A1[0] = x + SIZE_CELL / 2 - SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
+                A1[1] = y + SIZE_CELL / 2 - SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
+                B1[0] = x + SIZE_CELL / 2 + SIZE_CELL * Math.cos(cellStates[i][j]) / 2.5;
+                B1[1] = y + SIZE_CELL / 2 + SIZE_CELL * Math.sin(cellStates[i][j]) / 2.5;
+                drawArrow(A1, B1, SIZE_CELL * 0.40, SIZE_CELL * 0.40);
+            }
         }
     }
 
@@ -268,7 +271,6 @@ function updateGrid() {
     // TODO: get data for plots to txt -> test different algorithm
     // console.log(Mxtot);
 
-    var fps = 100;
     TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
 }
 

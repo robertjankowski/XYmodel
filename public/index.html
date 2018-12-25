@@ -35,71 +35,87 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Simulation of XY model</h1>
+    <div class="body">
+        <div class="container">
+            <div class="jumbotron jumbotron-fluid">
+                <h1>Simulation of XY model</h1>
+            </div>
+        </div>
+        <div class="main">
+            <div class="left">
+                <canvas id="model" width="600" height="600"></canvas>
+            </div>
+            <div class="right">
+                <table>
+                    <tr>
+                        <th>
+                            <button id="setup" type="button" class="btn btn-primary active btn-lg">SETUP</button>
+                        </th>
+                        <th>
+                            <button id="go" type="button" class="btn btn-primary active btn-lg">GO</button>
+                        </th>
+                    </tr>
+                </table>
+                <hr>
+                <div class="form-group">
+                    <p>Grid size</p>
+                    <select class="form-control" id="size_cell" onchange="document.getElementById('size_cell').value = this.value">
+                        <option value="6"> 100 x 100</option>
+                        <option value="10"> 60 x 60</option>
+                        <option value="20" selected>30 x 30</option>
+                        <option value="60">10 x 10</option>
+                    </select>
+                    <input type="hidden" id="size_cell" value="SIZE_CELL">
+                </div>
+                <br>
+                <div id="slidercontainer">
+                    <p>Temperature</p>
+                    <input type="text" id="temp_id" class="temperature" name="temp-slider" value="">
+                    <p>Interaction \(J\)</p>
+                    <input type="text" id="interaction_id" class="interaction" name="interaction-slider" value="">
+                    <p>FPS</p>
+                    <input type="text" id="fps_id" class="fps" name="fps-slider" value="">
+                </div>
+                <hr>
+                <div id="appearance">
+                    <p>Appearance</p>
+                    <table>
+                        <tr>
+                            <th>Color</th>
+                            <th>Grid</th>
+                            <th>Arrows</th>
+                        </tr>
+                        <tr>
+                            <td><input id="color" class="color" checked type="checkbox"></td>
+                            <td><input id="grid" class="grid" checked type="checkbox"></td>
+                            <td><input id="arrows" class="arrows" checked type="checkbox"></td>
+                        </tr>
+                    </table>
+                </div>
+                <hr>
+                <div id="info">
+                    <p>How to control simulation</p>
+                    <ol>
+                        <li>Set grid size, off/on color and grid</li>
+                        <li>Press <b>SETUP</b> button</li>
+                        <li>Press <b>GO</b> button to start simulation</li>
+                        <li>Press once again to stop simulation</li>
+                    </ol>
+                </div>
+                <br>
+            </div>
         </div>
     </div>
-    <div class="main">
-        <div class="left">
-            <canvas id="model" width="600" height="600"></canvas>
-        </div>
-        <div class="right">
-            <div class="row">
-                <div class="col-sm-4 text-center">
-                    <button id="setup" type="button" class="btn btn-primary active">SETUP</button>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <button id="go" type="button" class="btn btn-primary active">GO</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <p>Grid size</p>
-                <select class="form-control" id="size_cell" onchange="document.getElementById('size_cell').value = this.value">
-                    <option value="6"> 100 x 100</option>
-                    <option value="10"> 60 x 60</option>
-                    <option value="20" selected>30 x 30</option>
-                    <option value="60">10 x 10</option>
-                </select>
-                <input type="hidden" id="size_cell" value="SIZE_CELL">
-            </div>
-            <br>
-            <div id="slidercontainer">
-                <p>Temperature</p>
-                <input type="text" id="temp_id" class="temperature" name="temp-slider" value="">
-                <p></p>
-                <p>Interaction \(J\)</p>
-                <input type="text" id="interaction_id" class="interaction" name="interaction-slider" value="">
-            </div>
-            <br>
-            <table style="width:100%">
-                <tr>
-                    <th>Color</th>
-                    <th>Grid</th>
-                </tr>
-                <tr>
-                    <th><input id="color" class="color" checked type="checkbox"></th>
-                    <th><input id="grid" class="color" checked type="checkbox"></th>
-                </tr>
-            </table>
-            <br>
-            <div id="info">
-                <p>How to control simulation</p>
-                <ol>
-                    <li>Set grid size, off/on color and grid</li>
-                    <li>Press <b>SETUP</b> button</li>
-                    <li>Press <b>GO</b> button to start simulation</li>
-                    <li>Press once again to stop simulation</li>
-                </ol>
-            </div>
-            <br>
-        </div>
+    <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="footer">
             © 2018 Copyright: Robert Jankowski
-            <a href="https://github.com/robertjankowski/XYmodel" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/robertjankowski/XYmodel" target="_blank">
+                <span style="font-size: 20px; padding: 5px; color: #333">
+                    <i class="fab fa-github"></i>
+                </span>
+            </a>
         </div>
     </div>
-
     <script src="static/js/utils.js"></script>
     <script src="static/js/model.js"></script>
 </body>
