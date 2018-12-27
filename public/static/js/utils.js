@@ -36,20 +36,28 @@ $fps_slider.ionRangeSlider({
 // color on/off
 var $color = $(".color");
 $color.bootstrapToggle();
-$color.change(function() {
+$color.change(function () {
     color = $(".color").prop('checked');
 });
 
 // grid on/off
 var $grid = $(".grid");
 $grid.bootstrapToggle();
-$grid.change(function() {
+$grid.change(function () {
     grid = $(".grid").prop('checked');
 });
 
 // arrows on/off
 var $arrows = $(".arrows");
 $arrows.bootstrapToggle();
-$arrows.change(function() {
+$arrows.change(function () {
     arrows = $(".arrows").prop("checked");
 });
+
+// save data to .txt
+function download(content, filename) {
+    var file = new File([content], filename + ".txt", {
+        type: "text/plain;charset=utf-8"
+    });
+    saveAs(file);
+}

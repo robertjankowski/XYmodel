@@ -13,8 +13,10 @@ var total_cells;
 var cellStates;
 var buttonCounter = 0;
 var TimeoutID;
-var J; // interaction 
-var T; // temperature
+var J = 1; // interaction 
+var T = 0; // temperature
+
+var content = [];
 
 var color = true; // color on/off
 var grid = true; // grid on/off
@@ -98,9 +100,9 @@ function makeGrid() {
 
 
 function initCellState() {
-    cellStates = new Array();
+    cellStates = [];
     for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
-        cellStates[i] = new Array();
+        cellStates[i] = [];
         for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
             cellStates[i][j] = 0;
         }
@@ -268,8 +270,18 @@ function updateGrid() {
         }
     }
 
-    // TODO: get data for plots to txt -> test different algorithm
-    // console.log(Mxtot);
+    content.push(T);
+    content.push("\t");
+    content.push(Mxtot);
+    content.push("\r\n");
+    // T = (0, 5)
+    // if (T > 5) {
+    //     download(content.join(""), "temp_M");
+    //     T = 0;
+    // } 
+    // T += 0.01;
+
+    // TODO: calculate helicity modulus + magnetization 
 
     TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
 }
