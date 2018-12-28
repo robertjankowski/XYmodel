@@ -250,10 +250,28 @@ function updateGrid() {
         makeGrid();
     }
 
-    // calculate M
-    var CELL_TOT = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH
-    var Mxtot = 0;
-    var Mytot = 0;
+    // For plotting 
+    /*
+    M = calculateM(cellStates);
+    content.push(T);
+    content.push("\t");
+    content.push(M);
+    content.push("\r\n");
+    // T = (0, 5)
+    if (T > 2) {
+        download(content.join(""), "T_M-test");
+        T = 0;
+        content = []
+    } 
+    T += 0.005;
+    */
+    TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
+}
+
+function calculateM(cellStates) {
+    var CELL_TOT = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH;
+    var M_x = 0;
+    var M_y = 0;
     var Etot = 0;
     for (var ii = 0; ii < CELL_HEIGHT_WIDTH; ii++) {
         for (var jj = 0; jj < CELL_HEIGHT_WIDTH; jj++) {
@@ -261,30 +279,26 @@ function updateGrid() {
             mjj = jj - 1
             if (mii < 0) mii = CELL_HEIGHT_WIDTH - 1;
             if (mjj < 0) mjj = CELL_HEIGHT_WIDTH - 1;
-            Mxtot = Mxtot + Math.cos(-cellStates[ii][jj]) * Math.pow(CELL_TOT, -1);
-            Mytot = Mytot + Math.sin(-cellStates[ii][jj]) * Math.pow(CELL_TOT, -1);
-            Etot = Etot -
-                J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
+            M_x += Math.cos(-cellStates[ii][jj]) / CELL_TOT;
+            M_y += Math.sin(-cellStates[ii][jj]) / CELL_TOT;
+            Etot -= J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
                     Math.cos(cellStates[ii][jj] - cellStates[ii][mjj])) *
-                Math.pow(CELL_TOT, -1);
+                    Math.pow(CELL_TOT, -1);
         }
     }
-
-    content.push(T);
-    content.push("\t");
-    content.push(Mxtot);
-    content.push("\r\n");
-    // T = (0, 5)
-    // if (T > 5) {
-    //     download(content.join(""), "temp_M");
-    //     T = 0;
-    // } 
-    // T += 0.01;
-
-    // TODO: calculate helicity modulus + magnetization 
-
-    TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
+    // TODO: sth wrong should be M=1 at T=0 but it is 0 - very weird !
+    var M = Math.sqrt(Math.pow(M_x, 2) + Math.pow(M_y, 2))
+    console.log("M_x: ", M_x, "\tM_y: ", M_y);
+    console.log("M: ", M);
+    return M
 }
+
+function calculateHelicityModulus(cellStates) {
+    // https://arxiv.org/pdf/cond-mat/0304226.pdf
+
+    // TODO: implement helicity modulus
+}
+
 
 function boundaryConditions() {
     var mii = miiin;
