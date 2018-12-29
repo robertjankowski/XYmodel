@@ -3,8 +3,8 @@
 var $temperature_slider = $(".temperature");
 $temperature_slider.ionRangeSlider({
     min: 0,
-    max: 10,
-    step: 0.05,
+    max: 2.5,
+    step: 0.01,
     from: 2,
     skin: 'round'
 });

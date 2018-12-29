@@ -9,14 +9,11 @@ var BLACK = 'rgb(0, 0, 0)';
 var ARROW_COLOR = "rgba(17, 24, 35)";
 
 // cell variables
-var total_cells;
 var cellStates;
 var buttonCounter = 0;
 var TimeoutID;
 var J = 1; // interaction 
 var T = 0; // temperature
-
-var content = [];
 
 var color = true; // color on/off
 var grid = true; // grid on/off
@@ -61,7 +58,6 @@ function go() {
 function initGrid() {
     SIZE_CELL = parseInt(document.getElementById("size_cell").value);
     CELL_HEIGHT_WIDTH = GRID_SIZE / SIZE_CELL;
-    total_cells = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH;
 }
 
 function makeCanvas() {
@@ -120,10 +116,8 @@ function initRandomCells(cell_state) {
 }
 
 function drawCells(cell_state) {
-    var A1 = new Array(2);
-    var B1 = new Array(2);
-    var A2 = new Array(2);
-    var B2 = new Array(2);
+    var A1 = [];
+    var B1 = [];
     for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
         for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
             var x = i * SIZE_CELL;
@@ -156,8 +150,8 @@ function drawCells(cell_state) {
 }
 
 function drawArrow(A, B, w, h) {
-    var L = new Array(2);
-    var R = new Array(2);
+    var L = [];
+    var R = [];
     arrowPos(A, B, w, h, L, R);
     ctx.save();
     ctx.beginPath();
@@ -185,52 +179,47 @@ function arrowPos(A, B, w, h, L, R) {
     R[1] = B[1] - Ux * w - Uy * h;
 }
 
-var miiin;
-var piiin;
-var jjin;
-var mjjin;
-var pjjin;
-
 function updateGrid() {
     makeCanvas();
     T = parseFloat(document.getElementById("temp_id").value);
     J = parseFloat(document.getElementById("interaction_id").value);
-
     for (var i = 0; i < CELL_HEIGHT_WIDTH; i++) {
         for (var j = 0; j < CELL_HEIGHT_WIDTH; j++) {
 
-            var ii = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
-            var jj = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
+            // choose random position of spin
+            var x = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
+            var y = Math.floor(Math.random() * CELL_HEIGHT_WIDTH);
 
-            var iiin = ii;
-            miiin = ii - 1;
-            piiin = ii + 1;
-            jjin = jj;
-            mjjin = jj - 1;
-            pjjin = jj + 1;
+            var right_x = x - 1;
+            var left_x = x + 1;
+            var up_y = y - 1;
+            var down_y = y + 1;
 
-            boundaryConditions();
+            // periodic boundary condition
+            if (right_x < 0) 
+                right_x = CELL_HEIGHT_WIDTH - 1;
+            if (left_x > CELL_HEIGHT_WIDTH - 1) 
+                left_x = 0;
+            if (up_y < 0) 
+                up_y = CELL_HEIGHT_WIDTH - 1;
+            if (down_y > CELL_HEIGHT_WIDTH - 1) 
+                down_y = 0;
 
-            var mii = miiin;
-            var pii = piiin;
-            var mjj = mjjin;
-            var pjj = pjjin;
-
-            var trialCellState = cellStates[ii][jj] + 0.25 * Math.PI * (2 * Math.random() - 1);
-            if (trialCellState >= Math.PI) {
-                trialCellState = trialCellState - 2 * Math.PI;
-            } else if (trialCellState < -Math.PI) {
-                trialCellState = trialCellState + 2 * Math.PI;
+            var randomSpin = cellStates[x][y] + 0.25 * Math.PI * (2 * Math.random() - 1);
+            if (randomSpin >= Math.PI) {
+                randomSpin = randomSpin - 2 * Math.PI;
+            } else if (randomSpin < -Math.PI) {
+                randomSpin = randomSpin + 2 * Math.PI;
             }
-
-            var deltaE = -J * (Math.cos(trialCellState - cellStates[mii][jj]) +
-                    Math.cos(trialCellState - cellStates[pii][jj]) +
-                    Math.cos(trialCellState - cellStates[ii][mjj]) +
-                    Math.cos(trialCellState - cellStates[ii][pjj])) +
-                J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
-                    Math.cos(cellStates[ii][jj] - cellStates[pii][jj]) +
-                    Math.cos(cellStates[ii][jj] - cellStates[ii][mjj]) +
-                    Math.cos(cellStates[ii][jj] - cellStates[ii][pjj]))
+            // deltaE = E_new - E
+            var deltaE = -J * (Math.cos(randomSpin - cellStates[right_x][y]) +
+                    Math.cos(randomSpin - cellStates[left_x][y]) +
+                    Math.cos(randomSpin - cellStates[x][up_y]) +
+                    Math.cos(randomSpin - cellStates[x][down_y])) +
+                J * (Math.cos(cellStates[x][y] - cellStates[right_x][y]) +
+                    Math.cos(cellStates[x][y] - cellStates[left_x][y]) +
+                    Math.cos(cellStates[x][y] - cellStates[x][up_y]) +
+                    Math.cos(cellStates[x][y] - cellStates[x][down_y]))
 
             var expBoltzmann = 0;
             if (T !== 0) {
@@ -238,10 +227,10 @@ function updateGrid() {
             }
             if (deltaE > 0) {
                 if (Math.random() < expBoltzmann) {
-                    cellStates[ii][jj] = trialCellState;
+                    cellStates[x][y] = randomSpin;
                 }
             } else {
-                cellStates[ii][jj] = trialCellState;
+                cellStates[x][y] = randomSpin;
             }
         }
     }
@@ -249,22 +238,6 @@ function updateGrid() {
     if (grid) {
         makeGrid();
     }
-
-    // For plotting 
-    /*
-    M = calculateM(cellStates);
-    content.push(T);
-    content.push("\t");
-    content.push(M);
-    content.push("\r\n");
-    // T = (0, 5)
-    if (T > 2) {
-        download(content.join(""), "T_M-test");
-        T = 0;
-        content = []
-    } 
-    T += 0.005;
-    */
     TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
 }
 
@@ -283,37 +256,12 @@ function calculateM(cellStates) {
             M_y += Math.sin(-cellStates[ii][jj]) / CELL_TOT;
             Etot -= J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
                     Math.cos(cellStates[ii][jj] - cellStates[ii][mjj])) *
-                    Math.pow(CELL_TOT, -1);
+                Math.pow(CELL_TOT, -1);
         }
     }
-    // TODO: sth wrong should be M=1 at T=0 but it is 0 - very weird !
+    
     var M = Math.sqrt(Math.pow(M_x, 2) + Math.pow(M_y, 2))
     console.log("M_x: ", M_x, "\tM_y: ", M_y);
     console.log("M: ", M);
     return M
-}
-
-function calculateHelicityModulus(cellStates) {
-    // https://arxiv.org/pdf/cond-mat/0304226.pdf
-
-    // TODO: implement helicity modulus
-}
-
-
-function boundaryConditions() {
-    var mii = miiin;
-    var pii = piiin;
-    var mjj = mjjin;
-    var pjj = pjjin;
-
-    //periodic boundary condition
-    if (mii < 0) mii = mii + CELL_HEIGHT_WIDTH;
-    if (pii > CELL_HEIGHT_WIDTH - 1) pii = pii - CELL_HEIGHT_WIDTH;
-    if (mjj < 0) mjj = mjj + CELL_HEIGHT_WIDTH;
-    if (pjj > CELL_HEIGHT_WIDTH - 1) pjj = pjj - CELL_HEIGHT_WIDTH;
-
-    miiin = mii;
-    piiin = pii;
-    mjjin = mjj;
-    pjjin = pjj;
 }
