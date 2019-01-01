@@ -150,6 +150,8 @@ function drawCells(cell_state) {
 }
 
 function drawArrow(A, B, w, h) {
+    // w - width
+    // h - height
     var L = [];
     var R = [];
     arrowPos(A, B, w, h, L, R);
@@ -196,13 +198,13 @@ function updateGrid() {
             var down_y = y + 1;
 
             // periodic boundary condition
-            if (right_x < 0) 
+            if (right_x < 0)
                 right_x = CELL_HEIGHT_WIDTH - 1;
-            if (left_x > CELL_HEIGHT_WIDTH - 1) 
+            if (left_x > CELL_HEIGHT_WIDTH - 1)
                 left_x = 0;
-            if (up_y < 0) 
+            if (up_y < 0)
                 up_y = CELL_HEIGHT_WIDTH - 1;
-            if (down_y > CELL_HEIGHT_WIDTH - 1) 
+            if (down_y > CELL_HEIGHT_WIDTH - 1)
                 down_y = 0;
 
             var randomSpin = cellStates[x][y] + 0.25 * Math.PI * (2 * Math.random() - 1);
@@ -219,7 +221,7 @@ function updateGrid() {
                 J * (Math.cos(cellStates[x][y] - cellStates[right_x][y]) +
                     Math.cos(cellStates[x][y] - cellStates[left_x][y]) +
                     Math.cos(cellStates[x][y] - cellStates[x][up_y]) +
-                    Math.cos(cellStates[x][y] - cellStates[x][down_y]))
+                    Math.cos(cellStates[x][y] - cellStates[x][down_y]));
 
             var expBoltzmann = 0;
             if (T !== 0) {
@@ -239,29 +241,4 @@ function updateGrid() {
         makeGrid();
     }
     TimeoutID = setTimeout(updateGrid, 1000 / fps, cellStates);
-}
-
-function calculateM(cellStates) {
-    var CELL_TOT = CELL_HEIGHT_WIDTH * CELL_HEIGHT_WIDTH;
-    var M_x = 0;
-    var M_y = 0;
-    var Etot = 0;
-    for (var ii = 0; ii < CELL_HEIGHT_WIDTH; ii++) {
-        for (var jj = 0; jj < CELL_HEIGHT_WIDTH; jj++) {
-            mii = ii - 1
-            mjj = jj - 1
-            if (mii < 0) mii = CELL_HEIGHT_WIDTH - 1;
-            if (mjj < 0) mjj = CELL_HEIGHT_WIDTH - 1;
-            M_x += Math.cos(-cellStates[ii][jj]) / CELL_TOT;
-            M_y += Math.sin(-cellStates[ii][jj]) / CELL_TOT;
-            Etot -= J * (Math.cos(cellStates[ii][jj] - cellStates[mii][jj]) +
-                    Math.cos(cellStates[ii][jj] - cellStates[ii][mjj])) *
-                Math.pow(CELL_TOT, -1);
-        }
-    }
-    
-    var M = Math.sqrt(Math.pow(M_x, 2) + Math.pow(M_y, 2))
-    console.log("M_x: ", M_x, "\tM_y: ", M_y);
-    console.log("M: ", M);
-    return M
 }
