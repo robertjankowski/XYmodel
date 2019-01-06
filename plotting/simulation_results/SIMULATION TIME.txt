@@ -1,0 +1,2 @@
+for hot start => 8h 55min
+for cold start => 8h 35min
