@@ -14,14 +14,13 @@ XY model is lattice model of statistical mechanics.
 
 <img src="https://latex.codecogs.com/svg.latex?H(s)&space;=&space;-&space;\sum_{<ij>}J_{ij}&space;s_i&space;\cdot&space;s_j&space;=&space;-\sum_{<ij>}&space;J_{ij}&space;\cos&space;(\theta_i&space;-&space;\theta_j)" title="H(s) = - \sum_{<ij>}J_{ij} s_i \cdot s_j = -\sum_{<ij>} J_{ij} \cos (\theta_i - \theta_j)" />
 
-*Helicity modulus*
-![hel](model/plots/cold_start/Helicity_cold_v2.png)
+|  ![t01](model/plots/T_01.png) 	|   ![t08](model/plots/T_08.png)	|   ![t10](model/plots/T_10.png)	|
+|---	|---	|---	|
 
-*Energy*
-![energy](model/plots/cold_start/Energia_cold_v2.png)
 
-*Magnetization*
-![mag](model/plots/cold_start/Magn_cold_v2.png)
 
-*Magnetic Susceptibility*
-![sus](model/plots/cold_start/Chi_cold_v2.png)
+|  ![hel](model/plots/cold_start/Helicity_cold_v2.png) 	|   ![energy](model/plots/cold_start/Energia_cold_v2.png)	|
+|------	|-------	|
+|   **Helicity modulus**	|   **Energy**	|
+|   ![mag](model/plots/cold_start/Magn_cold_v2.png)	|   ![sus](model/plots/cold_start/Chi_cold_v2.png)	|
+|   **Magnetization**	|   **Magnetic Susceptibility**	|
