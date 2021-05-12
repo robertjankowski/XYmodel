@@ -19,7 +19,7 @@
     "file-saver": "^2.0.0",
     "ion-rangeslider": "^2.3.0",
     "jquery": "^3.5.0",
-    "mathjs": "^5.4.0",
+    "mathjs": "^7.5.1",
     "pixi.js": "^4.8.3"
   }
 }
