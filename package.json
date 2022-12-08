@@ -15,7 +15,7 @@
   "author": "Robert Jankowski",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "file-saver": "^2.0.0",
     "ion-rangeslider": "^2.3.0",
     "jquery": "^3.5.0",
